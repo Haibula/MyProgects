@@ -1,0 +1,79 @@
+    public static void main(String[] args) {
+        ByteArrayOutputStream password = getPassword();
+        System.out.println(password.toString());
+
+    }
+
+    public static ByteArrayOutputStream getPassword() {
+        String upCaseABC = "";
+        String randomChars = "";
+        String result = "";
+
+        String randomUpperCase = "";
+        String randomDownCase = "";
+        String randomNum = "";
+
+        for (char i = 'A'; i <= 'Z'; i++) {
+            upCaseABC += i;
+            randomUpperCase += i;
+        }
+
+        for (char i = 'a'; i <= 'z'; i++) {
+            upCaseABC += i;
+            randomDownCase += i;
+        }
+
+        for (int i = 0; i <= 9; i++) {
+            upCaseABC += i;
+            randomNum += i;
+        }
+
+        String[] split = upCaseABC.split("");
+        for (int i = 0; i < split.length; i++) {
+            int b = (int) (Math.random() * i);
+            randomChars += split[b];
+        }
+
+        String[] splitRandomUperLetter = randomUpperCase.split("");
+        for (int i = 0; i < splitRandomUperLetter.length; i++) {
+            int b = (int) (Math.random() * i);
+            randomUpperCase = splitRandomUperLetter[b];
+        }
+        String[] splitRandomSmallLetter = randomDownCase.split("");
+        for (int i = 0; i < splitRandomSmallLetter.length; i++) {
+            int b = (int) (Math.random() * i);
+            randomDownCase = splitRandomSmallLetter[b];
+        }
+        String[] splitRandomNum = randomNum.split("");
+        for (int i = 0; i < splitRandomNum.length; i++) {
+            int b = (int) (Math.random() * i);
+            randomNum = splitRandomNum[b];
+        }
+
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append(randomChars);
+        stringBuffer.reverse();
+        result += stringBuffer.substring(0, 8);
+        String newResult = "";
+        String[] splitResult = result.split("");
+        int a = (int) (Math.random() * 3);      // (от 0 до 3)
+        int b = (int) (Math.random() * 3) + 3; // (от 3 до 6)
+        int c = (int) (Math.random() * 3) + 5; // (от 6 до 8)
+        for (int i = 0; i < splitResult.length; i++) {
+            splitResult[a] = randomUpperCase;
+            splitResult[b] = randomDownCase;
+            splitResult[c] = randomNum;
+            newResult += splitResult[i];
+        }
+
+        InputStream inputStream = new ByteArrayInputStream(newResult.getBytes());
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            while (inputStream.available() > 0) {
+                byteArrayOutputStream.write(inputStream.read());
+            }
+        } catch (Exception e) {
+        }
+
+        return byteArrayOutputStream;
+    }
